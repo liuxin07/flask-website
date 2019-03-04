@@ -5,9 +5,9 @@
  </head>
      <body>
          <ul>
-             <li>{{ filename.}}</li>
-             <li>{{ title }}</li>
-             <li>{% endfor %}</li>
+             <li>{{ file_item['title']}}</li>
+             <li>{{ file_item['created_time'] }}</li>
+             <li>{{ file_item['content']}}</li>
          </ul>
      </body>
 </html>

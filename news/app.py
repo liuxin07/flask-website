@@ -21,11 +21,12 @@ def index():
 @app.route('/files/<filename>')
 def file(filename):
     files = get_files()
-    for filename in files.get(filename):
-        if filename == None;
+    file_item = files.get(filename)
+    if file_item == None:
             abort(404)
-    return render_template('files.html',filename=filename)
+    return render_template('files.html',file_item=file_item)
 
+@app.errorhandler(404)
 def not_found(error):
     return render_template('404.html'), 404
 
