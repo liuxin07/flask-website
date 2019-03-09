@@ -27,28 +27,44 @@ class File(db.Model):
         self.created_time = created_time
         self.category = category
         self.content = content
-        
-    
-    def add_tag(self, tag_name):
+       
+
+    def add_tags(self,tag_name):
         file_item = mongo.files.find_one({'file_id': self.id})
         if file_item:
             tags = file_item['tags']
             if tag_name not in tags:
                 tags.append(tag_name)
-            mongo.files.update_one({'file_id': self.id}, {'$set': {'tags':tags}})
+            file_item = mongo.files.update({'file_id':self.id}, {'$set':{'tags': tags}})
+
         else:
             tags = [tag_name]
-            mongo.files.insert_one({'file_id':self.id, 'tags': tags})
+            file_item = mongo.files.insert_one({'file_id': self.id, 'tags': tags})
         return tags
+        
+    def remove_tags(self, tag_name):
+        file_item = mongo.files.find_one({'file_id': self.id})
+        if file_item:
+            tags = file_item['tags']
+            if tag_name in tags:
+                tags.remove(tag_name)
+                new_tag = tags
+            file_item = mongo.files.update({'file_id': self.id}, {'$set':{'tags': new_tag}})
+            return tags
+        return []
 
-    def remove_tag(self, tag_name):
-        db.files.delete_many(self.tag_name)
+
 
     @property
     def tags(self):
-        for x in db.files.find():
-            return x
-        return render_template()
+        file_item = mongo.files.find_one({'file_id': self.id}) 
+        if file_item:
+            return file_item
+        else:
+            return []
+           
+
+
 
 class Category(db.Model):
     __tablename__ = 'category'
@@ -71,6 +87,12 @@ def insert_data():
     db.session.add(file1)
     db.session.add(file2)
     db.session.commit()
+    file1.add_tags('tech')
+    file1.add_tags('java')
+    file1.add_tags('linux')
+    file2.add_tags('tech')
+    file2.add_tags('python')
+
 
 
 
