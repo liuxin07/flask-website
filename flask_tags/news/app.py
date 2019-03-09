@@ -50,7 +50,7 @@ class File(db.Model):
                 tags.remove(tag_name)
                 new_tag = tags
             file_item = mongo.files.update({'file_id': self.id}, {'$set':{'tags': new_tag}})
-            return tags
+            return new_tags
         return []
 
 
@@ -117,4 +117,4 @@ def not_found(error):
     return render_template('404.html'), 404
 
 if __name__=='__main__':
-    insert_data()
+    app()
