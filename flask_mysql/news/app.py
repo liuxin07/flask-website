@@ -10,7 +10,7 @@ app.config.update(dict(SQLALCHEMY_DATABASE_URI='mysql://root:@localhost/shiyanlo
 db = SQLAlchemy(app)
 
 class File(db.Model):
-    __tablename__ = 'file'
+    __tablename__ = 'files'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80))
     created_time = db.Column(db.DateTime)
